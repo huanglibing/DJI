@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   sensor_msgs
+  serial
 )
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../cmake-modules")
@@ -79,6 +80,10 @@ add_message_files(
   MissionHotpointTask.msg
   FlightAnomaly.msg
   VOPosition.msg
+  GimCtr.msg
+  HotpointMission.msg
+  WaypointMission.msg
+  Emergency.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -172,6 +177,22 @@ add_executable(dji_sdk_node
   src/modules/dji_sdk_node_mobile_comm.cpp
   src/modules/dji_sdk_node_payload_comm.cpp
   src/modules/dji_sdk_node_time_sync.cpp)
+
+add_executable(m600_ground src/modules/m600_ground.cpp)
+target_link_libraries(m600_ground ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
+add_dependencies(m600_ground ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(m600_air src/modules/m600_air.cpp)
+target_link_libraries(m600_air ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
+add_dependencies(m600_air ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} )
+
+add_executable(m600_gimbal src/modules/gimbal_driver.cpp)
+target_link_libraries(m600_gimbal ${catkin_LIBRARIES})
+add_dependencies(m600_gimbal ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} )
+
+add_executable(mTest src/modules/test.cpp)
+target_link_libraries(mTest ${catkin_LIBRARIES} )
+add_dependencies(mTest ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes

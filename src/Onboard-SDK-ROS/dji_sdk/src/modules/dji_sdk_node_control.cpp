@@ -110,7 +110,9 @@ void DJISDKNode::flightControl(uint8_t flag, float xSP, float ySP, float zSP, fl
   {
     yawCmd = RAD2DEG(-yawSP);
   }
-
+  
+  printf("flag : %x , xCmd : %f , yCmd : %f ,zCmd : %f , ywaCmd : %f ",flag, xCmd, yCmd, zCmd, yawCmd);
+  std::cout<<std::endl;
   Control::CtrlData ctrlData(flag, xCmd, yCmd, zCmd, yawCmd);
   vehicle->control->flightCtrl(ctrlData);
 }
@@ -124,7 +126,7 @@ DJISDKNode::flightControlSetpointCallback(
   float zSP    = pMsg->axes[2];
   float yawSP  = pMsg->axes[3];
   uint8_t flag = (uint8_t)(pMsg->axes[4]);
-
+  ROS_INFO("SetpointCallback");
   flightControl(flag, xSP, ySP, zSP, yawSP);
 }
 
@@ -137,7 +139,7 @@ DJISDKNode::flightControlPxPyPzYawCallback(
                   Control::YAW_ANGLE |
                   Control::HORIZONTAL_GROUND |
                   Control::STABLE_ENABLE);
-
+  ROS_INFO("PxPyPzYawCallback");
   float px    = pMsg->axes[0];
   float py    = pMsg->axes[1];
   float pz    = pMsg->axes[2];
@@ -155,6 +157,7 @@ DJISDKNode::flightControlVxVyVzYawrateCallback(
                   Control::YAW_RATE |
                   Control::HORIZONTAL_GROUND |
                   Control::STABLE_ENABLE);
+   ROS_INFO("VxVyVzYawrateCallback");
   float vx        = pMsg->axes[0];
   float vy        = pMsg->axes[1];
   float vz        = pMsg->axes[2];
@@ -172,7 +175,7 @@ DJISDKNode::flightControlRollPitchPzYawrateCallback(
                   Control::YAW_RATE |
                   Control::HORIZONTAL_BODY |
                   Control::STABLE_ENABLE);
-
+  ROS_INFO("RollPitchPzYawrateCallback");
   float roll      = pMsg->axes[0];
   float pitch     = pMsg->axes[1];
   float pz        = pMsg->axes[2];

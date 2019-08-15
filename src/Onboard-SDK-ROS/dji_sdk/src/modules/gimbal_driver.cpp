@@ -124,7 +124,7 @@ private:
 		if(mySerial == NULL){
 			mySerial = new serial::Serial();
 		}
-		mySerial->setPort("/dev/ttyUSB0");
+		mySerial->setPort("/dev/ttyS1");
 		mySerial->setBaudrate(115200);
 		serial::Timeout to = serial::Timeout::simpleTimeout(1000);
     		mySerial->setTimeout(to);
